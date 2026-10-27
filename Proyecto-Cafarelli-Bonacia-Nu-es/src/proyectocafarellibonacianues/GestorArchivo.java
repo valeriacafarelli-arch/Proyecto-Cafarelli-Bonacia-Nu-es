@@ -18,12 +18,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class GestorArchivo {
 
-    private Grafo grafo;
     private File archivoEstaciones;
     private File archivoConexiones;
 
-    public GestorArchivo(Grafo grafo) {
-        this.grafo = grafo;
+    public GestorArchivo() {
     }
 
     public File seleccionarArchivo(Component padre) {
@@ -48,10 +46,6 @@ public class GestorArchivo {
                         String lineaNom = p[2].trim();
                         String zona = p[3].trim();
                         int capacidad = Integer.parseInt(p[4].trim());
-
-                        if (grafo.buscarEstacion(id) == null) {
-                            grafo.agregarEstacion(new Estacion(id, nombre, lineaNom, zona, capacidad));
-                        }
                     }
                 }
             }
@@ -73,16 +67,6 @@ public class GestorArchivo {
                         String origen = p[0].trim();
                         String destino = p[1].trim();
                         int tiempo = Integer.parseInt(p[2].trim());
-
-                        if (grafo.buscarEstacion(origen) == null) {
-                            grafo.agregarEstacion(new Estacion(origen));
-                        }
-                        if (grafo.buscarEstacion(destino) == null) {
-                            grafo.agregarEstacion(new Estacion(destino));
-                        }
-                        try {
-                            grafo.agregarConexion(origen, destino, tiempo);
-                        } catch (Exception e) {}
                     }
                 }
             }
@@ -102,32 +86,23 @@ public class GestorArchivo {
             if (primeraLinea != null) {
                 primeraLinea = primeraLinea.toLowerCase();
                 if (primeraLinea.contains("id_estacion")) {
-                    grafo.limpiar();
                     archivoConexiones = null;
                     cargarEstaciones(archivo);
                 } else if (primeraLinea.contains("estacion_origen")) {
-                    if (archivoEstaciones == null) {
-                        grafo.limpiar();
-                    } else {
-                        grafo.eliminarTodasLasConexiones();
-                    }
                     cargarConexiones(archivo);
                 }
             }
-            grafo.setModificado(false);
         } catch (Exception ex) {
             System.out.println("Error al leer el archivo: " + ex.getMessage());
         }
     }
 
-    public void guardarEstaciones(File archivo) {
+    public void guardarEstaciones(File archivo, String contenido) {
         try {
             PrintWriter pw = new PrintWriter(archivo);
             pw.println("ID_Estacion,Nombre,Linea,Zona,Capacidad_Pasajeros_Hora");
-            Estacion[] todas = grafo.getEstaciones();
-            for (int i = 0; i < todas.length; i++) {
-                Estacion e = todas[i];
-                pw.println(e.getId() + "," + e.getNombre() + "," + e.getLinea() + "," + e.getZona() + "," + e.getCapacidad());
+            if (contenido != null && !contenido.isEmpty()) {
+                pw.print(contenido);
             }
             pw.close();
         } catch (Exception ex) {
@@ -135,33 +110,17 @@ public class GestorArchivo {
         }
     }
 
-    public void guardarConexiones(File archivo) {
+    public void guardarConexiones(File archivo, String contenido) {
         try {
             PrintWriter pw = new PrintWriter(archivo);
             pw.println("Estacion_Origen,Estacion_Destino,Tiempo_Traslado_Min");
-            Estacion[] todas = grafo.getEstaciones();
-            for (int i = 0; i < todas.length; i++) {
-                Estacion e = todas[i];
-                for (Conexion c = e.getPrimeraConexion(); c != null; c = c.getSiguiente()) {
-                    if (e.getId().compareTo(c.getDestino().getId()) < 0) {
-                        pw.println(e.getId() + "," + c.getDestino().getId() + "," + c.getTiempo());
-                    }
-                }
+            if (contenido != null && !contenido.isEmpty()) {
+                pw.print(contenido);
             }
             pw.close();
         } catch (Exception ex) {
             System.out.println("Error al guardar conexiones: " + ex.getMessage());
         }
-    }
-
-    public void actualizarRepositorio() {
-        if (archivoEstaciones != null) {
-            guardarEstaciones(archivoEstaciones);
-        }
-        if (archivoConexiones != null) {
-            guardarConexiones(archivoConexiones);
-        }
-        grafo.setModificado(false);
     }
 
     public boolean hayArchivoCargado() {
