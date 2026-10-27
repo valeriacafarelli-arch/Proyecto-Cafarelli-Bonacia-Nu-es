@@ -36,7 +36,7 @@ public class GestorArchivo {
     public void cargarEstaciones(File archivo) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(archivo));
-            String linea = br.readLine();
+            String linea = br.readLine() ;
             while ((linea = br.readLine()) != null) {
                 if (!linea.trim().isEmpty()) {
                     String[] p = linea.split(",");
