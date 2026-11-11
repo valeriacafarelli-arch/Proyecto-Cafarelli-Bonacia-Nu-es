@@ -3,138 +3,192 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyectocafarellibonacianues;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Set;
-
 /**
  *
  * @author PC
  */
+
 public class Grafoo {
-    
-}
-package proyectocafarellibonacianues;
+    private Vertice cabeza;
+    private TablaHashPropia tablaVertices;
+    private int totalVertices;
 
-import java.util.*;
-
-public class grafo {
-    private Vertice cabeza; 
-
-    public grafo() {
+    public Grafoo() {
         this.cabeza = null;
+        this.tablaVertices = new TablaHashPropia(101);
+        this.totalVertices = 0;
     }
 
+    // Agrega estacion a la lista de vertices y a la tabla hash
     public void agregarEstacion(Estacion estacion) {
-        Vertice nuevoVertice = new Vertice(estacion);
+        if (estacion == null) {
+            throw new IllegalArgumentException("La estacion no puede ser nula");
+        }
+
+        String id = (estacion.id_estacion != null) ? estacion.id_estacion : estacion.id_estacion;
+
+        if (tablaVertices.buscar(id) != null) {
+            throw new IllegalArgumentException("La estacion ya existe: " + id);
+        }
+
+        Vertice nuevo = new Vertice(estacion);
         if (cabeza == null) {
-            cabeza = nuevoVertice;
+            cabeza = nuevo;
         } else {
-            Vertice actual = cabeza;
-            while (actual.siguiente != null) {
-                actual = actual.siguiente;
+            Vertice aux = cabeza;
+            while (aux.siguiente != null) {
+                aux = aux.siguiente;
             }
-            actual.siguiente = nuevoVertice;
+            aux.siguiente = nuevo;
         }
+
+        tablaVertices.insertar(id, nuevo);
+        totalVertices++;
     }
 
+    // Valida que existan origen y destino antes de crear la conexion
+    public void agregarConexion(String idOrigen, String idDestino, int tiempoMinutos) {
+        Vertice origen = buscarVertice(idOrigen);
+        Vertice destino = buscarVertice(idDestino);
 
+        if (origen == null) {
+            throw new IllegalArgumentException("No existe el origen: " + idOrigen);
+        }
+        if (destino == null) {
+            throw new IllegalArgumentException("No existe el destino: " + idDestino);
+        }
+        if (tiempoMinutos <= 0) {
+            throw new IllegalArgumentException("El tiempo debe ser mayor a 0");
+        }
+
+        Conexion con = new Conexion(origen, destino, tiempoMinutos);
+        origen.adyacente.agregar(con);
+    }
+
+    // Busqueda en O(1) usando la tabla interna
     public Vertice buscarVertice(String idEstacion) {
-        Vertice actual = cabeza;
-        while (actual != null) {
-            if (actual.estacion.id_estacion.equals(idEstacion)) {
-                return actual;
-            }
-            actual = actual.siguiente;
+        if (idEstacion == null) {
+            return null;
         }
-        return null;
+        return tablaVertices.buscar(idEstacion);
     }
 
-    public List<Estacion> dijkstra(String idOrigen, String idDestino) {
-        Vertice verticeOrigen = buscarVertice(idOrigen);
-        Vertice verticeDestino = buscarVertice(idDestino);
+    // Dijkstra usando arreglos simples y for tradicional
+    public ListaPropia dijkstra(String idOrigen, String idDestino) {
+        Vertice vOrigen = buscarVertice(idOrigen);
+        Vertice vDestino = buscarVertice(idDestino);
 
-        if (verticeOrigen == null || verticeDestino == null) {
-            System.out.println("Estación de origen o destino no encontrada.");
-            return new ArrayList<>();
+        if (vOrigen == null || vDestino == null) {
+            throw new IllegalArgumentException("Origen o destino no encontrados");
         }
 
-        Map<Vertice, Integer> tiemposMinimos = new HashMap<>();
-        Map<Vertice, Vertice> predecesores = new HashMap<>();
-        
+        Vertice[] nodos = new Vertice[totalVertices];
+        int[] tiempos = new int[totalVertices];
+        Vertice[] padres = new Vertice[totalVertices];
+        boolean[] visitados = new boolean[totalVertices];
 
-        PriorityQueue<NodoDistancia> cola = new PriorityQueue<>(Comparator.comparingInt(n -> n.tiempoAcumulado));
+        Vertice aux = cabeza;
+        int i = 0;
+        int idxOrigen = -1;
+        int idxDestino = -1;
 
-        Vertice actual = cabeza;
-        while (actual != null) {
-            tiemposMinimos.put(actual, Integer.MAX_VALUE);
-            actual = actual.siguiente;
+        while (aux != null) {
+            nodos[i] = aux;
+            tiempos[i] = Integer.MAX_VALUE;
+            padres[i] = null;
+            visitados[i] = false;
+
+            if (aux.equals(vOrigen)) {
+                idxOrigen = i;
+            }
+            if (aux.equals(vDestino)) {
+                idxDestino = i;
+            }
+
+            aux = aux.siguiente;
+            i++;
         }
 
-        tiemposMinimos.put(verticeOrigen, 0);
-        cola.add(new NodoDistancia(verticeOrigen, 0));
+        tiempos[idxOrigen] = 0;
 
-        Set<Vertice> visitados = new HashSet<>();
+        for (int paso = 0; paso < totalVertices; paso++) {
+            int menor = Integer.MAX_VALUE;
+            int u = -1;
 
-        while (!cola.isEmpty()) {
-            NodoDistancia nodoActual = cola.poll();
-            Vertice u = nodoActual.vertice;
+            // Buscar el nodo con menor tiempo acumulado no visitado
+            for (int j = 0; j < totalVertices; j++) {
+                if (!visitados[j] && tiempos[j] < menor) {
+                    menor = tiempos[j];
+                    u = j;
+                }
+            }
 
-            if (visitados.contains(u)) continue;
-            visitados.add(u);
+            if (u == -1 || u == idxDestino) {
+                break;
+            }
 
-            if (u.equals(verticeDestino)) break;
+            visitados[u] = true;
+            Vertice verticeActual = nodos[u];
 
-            List<Conexion> conexionesSalientes = obtenerConexionesDe(u);
+            // Revisar vecinos
+            ListaPropia conexiones = verticeActual.adyacente;
+            for (int k = 0; k < conexiones.getTamano(); k++) {
+                Conexion con = (Conexion) conexiones.obtener(k);
+                Vertice vecino = con.Estacion_Destino;
+                int peso = con.Tiempo_Minutos;
 
-            for (Conexion conexion : conexionesSalientes) {
-                Vertice v = conexion.Estacion_Destino;
-                int pesoTiempo = conexion.Tiempo_Minutos;
-
-                if (!visitados.contains(v)) {
-                    int nuevoTiempo = tiemposMinimos.get(u) + pesoTiempo;
-
-                    if (nuevoTiempo < tiemposMinimos.get(v)) {
-                        tiemposMinimos.put(v, nuevoTiempo);
-                        predecesores.put(v, u);
-                        cola.add(new NodoDistancia(v, nuevoTiempo));
+                int v = buscarIndice(nodos, vecino);
+                if (v != -1 && !visitados[v]) {
+                    if (tiempos[u] != Integer.MAX_VALUE) {
+                        int nuevoTiempo = tiempos[u] + peso;
+                        if (nuevoTiempo < tiempos[v]) {
+                            tiempos[v] = nuevoTiempo;
+                            padres[v] = verticeActual;
+                        }
                     }
                 }
             }
         }
 
-        LinkedList<Estacion> camino = new LinkedList<>();
-        Vertice paso = verticeDestino;
-        
-        if (predecesores.containsKey(paso) || paso.equals(verticeOrigen)) {
-            while (paso != null) {
-                camino.addFirst(paso.estacion);
-                paso = predecesores.get(paso);
+        // Armar el camino hacia atras
+        ListaPropia camino = new ListaPropia();
+        int actualIdx = idxDestino;
+
+        if (tiempos[actualIdx] != Integer.MAX_VALUE) {
+            while (actualIdx != -1) {
+                camino.agregarAlInicio(nodos[actualIdx].estacion);
+                Vertice padre = padres[actualIdx];
+                actualIdx = (padre != null) ? buscarIndice(nodos, padre) : -1;
             }
         }
 
         return camino;
     }
 
-
-    private List<Conexion> obtenerConexionesDe(Vertice vertice) {
-        List<Conexion> resultado = new ArrayList<>();
-        return resultado;
-    }
-    private static class NodoDistancia {
-        Vertice vertice;
-        int tiempoAcumulado;
-
-        public NodoDistancia(Vertice vertice, int tiempoAcumulado) {
-            this.vertice = vertice;
-            this.tiempoAcumulado = tiempoAcumulado;
+    private int buscarIndice(Vertice[] arreglo, Vertice vertice) {
+        for (int i = 0; i < arreglo.length; i++) {
+            if (arreglo[i] != null && arreglo[i].equals(vertice)) {
+                return i;
+            }
         }
+        return -1;
+    }
+
+    public ListaPropia obtenerTodasLasEstaciones() {
+        ListaPropia lista = new ListaPropia();
+        Vertice aux = cabeza;
+        while (aux != null) {
+            lista.agregar(aux.estacion);
+            aux = aux.siguiente;
+        }
+        return lista;
+    }
+
+    public Vertice getCabeza() {
+        return cabeza;
+    }
+
+    public int getTotalVertices() {
+        return totalVertices;
     }
 }
