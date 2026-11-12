@@ -20,6 +20,7 @@ public class GestorArchivo {
 
     private File archivoEstaciones;
     private File archivoConexiones;
+    public Grafoo grafo;
 
     public GestorArchivo() {
     }
@@ -46,6 +47,7 @@ public class GestorArchivo {
                         String lineaNom = p[2].trim();
                         String zona = p[3].trim();
                         int capacidad = Integer.parseInt(p[4].trim());
+                        grafo.agregarEstacion(new Estacion(id, nombre, lineaNom, zona, capacidad));
                     }
                 }
             }
@@ -67,6 +69,7 @@ public class GestorArchivo {
                         String origen = p[0].trim();
                         String destino = p[1].trim();
                         int tiempo = Integer.parseInt(p[2].trim());
+                        grafo.agregarConexion(origen, destino, tiempo);
                     }
                 }
             }
