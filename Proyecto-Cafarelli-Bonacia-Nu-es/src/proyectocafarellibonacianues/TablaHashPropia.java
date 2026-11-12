@@ -8,17 +8,15 @@ package proyectocafarellibonacianues;
  *
  * @author VALERIA
  */
-    // Tabla hash interna del grafo para buscar estaciones por ID en O(1)
     public  class TablaHashPropia {
-        public EntradaHash[] cubetas;
+        public EntradaHash[] estaciones;
         public int capacidad;
 
         public TablaHashPropia(int capacidad) {
             this.capacidad = capacidad;
-            this.cubetas = new EntradaHash[capacidad];
+            this.estaciones = new EntradaHash[capacidad];
         }
 
-        // Funcion hash basica usando numero primo
         private int hash(String clave) {
             int h = 0;
             char[] chars = clave.toCharArray();
@@ -33,7 +31,7 @@ package proyectocafarellibonacianues;
         
         public void insertar(String clave, Vertice valor) {
             int pos = hash(clave);
-            EntradaHash actual = cubetas[pos];
+            EntradaHash actual = estaciones[pos];
             while (actual != null) {
                 if (actual.clave.equals(clave)) {
                     actual.valor = valor;
@@ -42,13 +40,13 @@ package proyectocafarellibonacianues;
                 actual = actual.siguiente;
             }
             EntradaHash nuevo = new EntradaHash(clave, valor);
-            nuevo.siguiente = cubetas[pos];
-            cubetas[pos] = nuevo;
+            nuevo.siguiente = estaciones[pos];
+            estaciones[pos] = nuevo;
         }
 
         public Vertice buscar(String clave) {
             int pos = hash(clave);
-            EntradaHash actual = cubetas[pos];
+            EntradaHash actual = estaciones[pos];
             while (actual != null) {
                 if (actual.clave.equals(clave)) {
                     return actual.valor;
@@ -56,6 +54,19 @@ package proyectocafarellibonacianues;
                 actual = actual.siguiente;
             }
             return null;
+        }
+        public void eliminar(String clave){
+            int pos = hash (clave);
+            EntradaHash actual = estaciones[pos];
+            if (actual.clave.equals(clave)) {
+                    estaciones[pos] = actual.siguiente;
+                }
+            else {
+                while (!actual.siguiente.clave.equals(clave)){
+                    actual = actual.siguiente;
+                }
+                actual.siguiente = actual.siguiente.siguiente;
+            }
         }
     }
 
