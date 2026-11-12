@@ -21,6 +21,7 @@ public class GestorArchivo {
     private File archivoEstaciones;
     private File archivoConexiones;
     public Grafoo grafo;
+    public TablaHashPropia tablahash;
 
     public GestorArchivo() {
     }
@@ -47,7 +48,10 @@ public class GestorArchivo {
                         String lineaNom = p[2].trim();
                         String zona = p[3].trim();
                         int capacidad = Integer.parseInt(p[4].trim());
-                        grafo.agregarEstacion(new Estacion(id, nombre, lineaNom, zona, capacidad));
+                        Estacion estacion = new Estacion(id, nombre, lineaNom, zona, capacidad);
+                        grafo.agregarEstacion(estacion);
+                        tablahash.insertar(id,grafo.buscarVertice(id));
+                        
                     }
                 }
             }
