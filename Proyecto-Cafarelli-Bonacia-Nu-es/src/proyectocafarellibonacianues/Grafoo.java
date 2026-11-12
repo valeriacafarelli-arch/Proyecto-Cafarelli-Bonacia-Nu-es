@@ -62,7 +62,8 @@ public class Grafoo {
         }
 
         Conexion con = new Conexion(origen, destino, tiempoMinutos);
-        origen.adyacente.agregar(con);
+        origen.adyacentes.agregar(con);
+        destino.adyacentes.agregar(con);
     }
 
     // Busqueda en O(1) usando la tabla interna
@@ -131,7 +132,7 @@ public class Grafoo {
             Vertice verticeActual = nodos[u];
 
             // Revisar vecinos
-            ListaPropia conexiones = verticeActual.adyacente;
+            ListaPropia conexiones = verticeActual.adyacentes;
             for (int k = 0; k < conexiones.getTamano(); k++) {
                 Conexion con = (Conexion) conexiones.obtener(k);
                 Vertice vecino = con.Estacion_Destino;

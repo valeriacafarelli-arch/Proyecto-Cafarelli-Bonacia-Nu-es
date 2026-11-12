@@ -11,9 +11,11 @@ package proyectocafarellibonacianues;
 public class Vertice {
     Vertice siguiente;
     Estacion estacion;
+    ListaPropia adyacentes;
         public Vertice (Estacion estacion) {
             siguiente = null;
             this.estacion = estacion;
+            adyacentes = new ListaPropia();
 
         }
             
