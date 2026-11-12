@@ -93,6 +93,7 @@ public class Grafoo {
         int idxOrigen = -1;
         int idxDestino = -1;
 
+        
         while (aux != null) {
             nodos[i] = aux;
             tiempos[i] = Integer.MAX_VALUE;
