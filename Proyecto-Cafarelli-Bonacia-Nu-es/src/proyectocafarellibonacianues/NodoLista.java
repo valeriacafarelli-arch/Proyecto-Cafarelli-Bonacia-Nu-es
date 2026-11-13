@@ -11,10 +11,10 @@ package proyectocafarellibonacianues;
 
       // Nodo basico para la lista enlazada
     public class NodoLista {
-        public Object dato;
+        public Conexion dato;
         public NodoLista siguiente;
 
-        public NodoLista(Object dato) {
+        public NodoLista(Conexion dato) {
             this.dato = dato;
             this.siguiente = null;
         }

@@ -75,7 +75,7 @@ public class Grafoo {
     }
 
     // Dijkstra usando arreglos simples y for tradicional
-    public ListaPropia dijkstra(String idOrigen, String idDestino) {
+    public Lista dijkstra(String idOrigen, String idDestino) {
         Vertice vOrigen = buscarVertice(idOrigen);
         Vertice vDestino = buscarVertice(idDestino);
 
@@ -153,7 +153,7 @@ public class Grafoo {
         }
 
         // Armar el camino hacia atras
-        ListaPropia camino = new ListaPropia();
+        Lista camino = new Lista();
         int actualIdx = idxDestino;
 
         if (tiempos[actualIdx] != Integer.MAX_VALUE) {
@@ -176,8 +176,8 @@ public class Grafoo {
         return -1;
     }
 
-    public ListaPropia obtenerTodasLasEstaciones() {
-        ListaPropia lista = new ListaPropia();
+    public Lista obtenerTodasLasEstaciones() {
+        Lista lista = new Lista();
         Vertice aux = cabeza;
         while (aux != null) {
             lista.agregar(aux.estacion);
@@ -188,6 +188,38 @@ public class Grafoo {
 
     public Vertice getCabeza() {
         return cabeza;
+    }
+    
+    public void eliminarVertice(String idEstacion) {
+        Vertice verticeAEliminar = buscarVertice(idEstacion);
+        if (verticeAEliminar == null) {
+            throw new IllegalArgumentException("La estacion no existe: " + idEstacion);
+        }
+
+        Vertice aux = cabeza;
+        while (aux != null) {
+            aux.adyacentes.eliminar(idEstacion);
+            aux = aux.siguiente;
+        }
+
+        if (cabeza.equals(verticeAEliminar)) {
+            cabeza = cabeza.siguiente;
+        } else {
+            Vertice actual = cabeza;
+            while (actual.siguiente != null && !actual.siguiente.equals(verticeAEliminar)) {
+                actual = actual.siguiente;
+            }
+            if (actual.siguiente != null) {
+                actual.siguiente = actual.siguiente.siguiente;
+            }
+        }
+
+        tablaVertices.eliminar(idEstacion);
+        totalVertices--;
+    }
+    
+    public String calcularHubs(){
+        return "";
     }
 
     public int getTotalVertices() {

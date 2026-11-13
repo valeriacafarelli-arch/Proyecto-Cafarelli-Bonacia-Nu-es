@@ -21,7 +21,7 @@ package proyectocafarellibonacianues;
 
 
 
-        public void agregar(Object dato) {
+        public void agregar(Conexion dato) {
             NodoLista nuevo = new NodoLista(dato);
             if (primero == null) {
                 primero = nuevo;
@@ -35,7 +35,7 @@ package proyectocafarellibonacianues;
             tamano++;
         }
 
-        public void agregarAlInicio(Object dato) {
+        public void agregarAlInicio(Conexion dato) {
             NodoLista nuevo = new NodoLista(dato);
             nuevo.siguiente = primero;
             primero = nuevo;
@@ -55,5 +55,21 @@ package proyectocafarellibonacianues;
 
         public int getTamano() {
             return tamano;
+        }
+        
+        public void eliminar(String id){
+            if(primero != null){
+                NodoLista aux = primero;
+                if(aux.dato.Estacion_Destino.estacion.id_estacion.equals(id)){
+                    primero = primero.siguiente;
+                }else{
+                    while(aux.siguiente != null && !aux.siguiente.dato.Estacion_Destino.estacion.id_estacion.equals(id)){
+                        aux = aux.siguiente;
+                    }
+                    if(aux.siguiente != null){
+                        aux.siguiente = aux.siguiente.siguiente;
+                    }
+                }
+            }
         }
     }
