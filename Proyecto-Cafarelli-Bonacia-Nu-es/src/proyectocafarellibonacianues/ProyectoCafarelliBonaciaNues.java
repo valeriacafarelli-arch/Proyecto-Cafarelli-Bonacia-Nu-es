@@ -16,6 +16,8 @@ public class ProyectoCafarelliBonaciaNues {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        NuevoInicio n = new NuevoInicio(new Grafoo(), new TablaHashPropia(101));
+        n.setVisible(true);
     }
     
 }

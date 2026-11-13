@@ -74,13 +74,12 @@ public class Grafoo {
         return tablaVertices.buscar(idEstacion);
     }
 
-    // Dijkstra usando arreglos simples y for tradicional
-    public Lista dijkstra(String idOrigen, String idDestino) {
+    public String dijkstra(String idOrigen, String idDestino) {
         Vertice vOrigen = buscarVertice(idOrigen);
         Vertice vDestino = buscarVertice(idDestino);
 
         if (vOrigen == null || vDestino == null) {
-            throw new IllegalArgumentException("Origen o destino no encontrados");
+            return "Error: Origen o destino no encontrados en el sistema.";
         }
 
         Vertice[] nodos = new Vertice[totalVertices];
@@ -93,7 +92,6 @@ public class Grafoo {
         int idxOrigen = -1;
         int idxDestino = -1;
 
-        
         while (aux != null) {
             nodos[i] = aux;
             tiempos[i] = Integer.MAX_VALUE;
@@ -117,7 +115,6 @@ public class Grafoo {
             int menor = Integer.MAX_VALUE;
             int u = -1;
 
-            // Buscar el nodo con menor tiempo acumulado no visitado
             for (int j = 0; j < totalVertices; j++) {
                 if (!visitados[j] && tiempos[j] < menor) {
                     menor = tiempos[j];
@@ -132,11 +129,11 @@ public class Grafoo {
             visitados[u] = true;
             Vertice verticeActual = nodos[u];
 
-            // Revisar vecinos
             ListaPropia conexiones = verticeActual.adyacentes;
             for (int k = 0; k < conexiones.getTamano(); k++) {
                 Conexion con = (Conexion) conexiones.obtener(k);
-                Vertice vecino = con.Estacion_Destino;
+                
+                Vertice vecino = (con.Estacion_Origen.equals(verticeActual)) ? con.Estacion_Destino : con.Estacion_Origen;
                 int peso = con.Tiempo_Minutos;
 
                 int v = buscarIndice(nodos, vecino);
@@ -152,19 +149,36 @@ public class Grafoo {
             }
         }
 
-        // Armar el camino hacia atras
-        Lista camino = new Lista();
+        if (tiempos[idxDestino] == Integer.MAX_VALUE) {
+            return "No existe una ruta disponible entre " + vOrigen.estacion.nombre + " y " + vDestino.estacion.nombre + ".";
+        }
+
+        Vertice[] camino = new Vertice[totalVertices];
+        int contadorCamino = 0;
         int actualIdx = idxDestino;
 
-        if (tiempos[actualIdx] != Integer.MAX_VALUE) {
-            while (actualIdx != -1) {
-                camino.agregarAlInicio(nodos[actualIdx].estacion);
-                Vertice padre = padres[actualIdx];
-                actualIdx = (padre != null) ? buscarIndice(nodos, padre) : -1;
+        while (actualIdx != -1) {
+            camino[contadorCamino] = nodos[actualIdx];
+            contadorCamino++;
+            Vertice padre = padres[actualIdx];
+            actualIdx = (padre != null) ? buscarIndice(nodos, padre) : -1;
+        }
+
+        String resultado = "--- RUTA ÓPTIMA (Menor Tiempo) ---\n";
+        resultado += "Origen: " + vOrigen.estacion.nombre + "\n";
+        resultado += "Destino: " + vDestino.estacion.nombre + "\n";
+        resultado += "Tiempo Total Estimado: " + tiempos[idxDestino] + " minutos\n";
+        resultado += "----------------------------------\n";
+        resultado += "Recorrido paso a paso:\n";
+
+        for (int j = contadorCamino - 1; j >= 0; j--) {
+            resultado += " " + (contadorCamino - j) + ". " + camino[j].estacion.nombre;
+            if (j > 0) {
+                resultado += "\n  |\n  v\n";
             }
         }
 
-        return camino;
+        return resultado;
     }
 
     private int buscarIndice(Vertice[] arreglo, Vertice vertice) {
@@ -218,10 +232,93 @@ public class Grafoo {
         totalVertices--;
     }
     
-    public String calcularHubs(){
-        return "";
+    public String calcularHubs() {
+        if (cabeza == null) {
+            return "No hay estaciones registradas en el grafo.";
+        }
+
+        int maxConexiones = -1;
+        Vertice aux = cabeza;
+        
+        while (aux != null) {
+            int numConexiones = aux.adyacentes.getTamano();
+            if (numConexiones > maxConexiones) {
+                maxConexiones = numConexiones;
+            }
+            aux = aux.siguiente;
+        }
+
+        if (maxConexiones <= 0) {
+            return "Las estaciones no tienen conexiones actualmente.";
+        }
+
+        String resultado = "Hubs principales detectados (" + maxConexiones + " conexiones directas):\n";
+        
+        aux = cabeza;
+        while (aux != null) {
+            if (aux.adyacentes.getTamano() == maxConexiones) {
+                resultado += " - [" + aux.estacion.id_estacion + "] " + aux.estacion.nombre + "\n";
+            }
+            aux = aux.siguiente;
+        }
+
+        return resultado;
     }
 
+    public String obtenerSubredes() {
+        if (cabeza == null) {
+            return "No hay estaciones para analizar.";
+        }
+
+        Vertice[] nodos = new Vertice[totalVertices];
+        boolean[] visitados = new boolean[totalVertices];
+        
+        Vertice aux = cabeza;
+        int i = 0;
+        while (aux != null) {
+            nodos[i] = aux;
+            visitados[i] = false;
+            aux = aux.siguiente;
+            i++;
+        }
+
+        String resultado = "";
+        int numSubred = 1;
+
+        for (int j = 0; j < totalVertices; j++) {
+            if (!visitados[j]) {
+                resultado += "-> Subred " + numSubred + ":\n";
+                resultado += dfs(nodos[j], nodos, visitados);
+                resultado += "\n\n";
+                numSubred++;
+            }
+        }
+        
+        return resultado;
+    }
+
+    private String dfs(Vertice actual, Vertice[] nodos, boolean[] visitados) {
+        int idx = buscarIndice(nodos, actual);
+        if (idx == -1 || visitados[idx]) {
+            return "";
+        }
+
+        visitados[idx] = true;
+        String caminoActual = "   - " + actual.estacion.nombre + "\n";
+
+        for (int k = 0; k < actual.adyacentes.getTamano(); k++) {
+            Conexion con = (Conexion) actual.adyacentes.obtener(k);
+            
+            Vertice vecino = (con.Estacion_Origen.equals(actual)) ? con.Estacion_Destino : con.Estacion_Origen;
+            
+            int idxVecino = buscarIndice(nodos, vecino);
+            if (idxVecino != -1 && !visitados[idxVecino]) {
+                caminoActual += dfs(vecino, nodos, visitados);
+            }
+        }
+        
+        return caminoActual;
+    }
     public int getTotalVertices() {
         return totalVertices;
     }

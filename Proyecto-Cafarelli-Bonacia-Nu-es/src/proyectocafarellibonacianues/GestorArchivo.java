@@ -104,27 +104,45 @@ public class GestorArchivo {
         }
     }
 
-    public void guardarEstaciones(File archivo, String contenido) {
+    public void guardarEstaciones(File archivo) {
         try {
             PrintWriter pw = new PrintWriter(archivo);
             pw.println("ID_Estacion,Nombre,Linea,Zona,Capacidad_Pasajeros_Hora");
-            if (contenido != null && !contenido.isEmpty()) {
-                pw.print(contenido);
+            
+            if (grafo != null && grafo.getCabeza() != null) {
+                Vertice aux = grafo.getCabeza();
+                while (aux != null) {
+                    Estacion e = aux.estacion;
+                    pw.println(e.id_estacion + "," + e.nombre + "," + e.linea + "," + e.zona + "," + e.Capacidad_Pasajeros_Hora);
+                    aux = aux.siguiente;
+                }
             }
             pw.close();
+            System.out.println("Archivo de estaciones guardado exitosamente.");
         } catch (Exception ex) {
             System.out.println("Error al guardar estaciones: " + ex.getMessage());
         }
     }
 
-    public void guardarConexiones(File archivo, String contenido) {
+    public void guardarConexiones(File archivo) {
         try {
             PrintWriter pw = new PrintWriter(archivo);
             pw.println("Estacion_Origen,Estacion_Destino,Tiempo_Traslado_Min");
-            if (contenido != null && !contenido.isEmpty()) {
-                pw.print(contenido);
+
+            if (grafo != null && grafo.getCabeza() != null) {
+                Vertice aux = grafo.getCabeza();
+                while (aux != null) {
+                    for (int i = 0; i < aux.adyacentes.getTamano(); i++) {
+                        Conexion con = (Conexion) aux.adyacentes.obtener(i);
+                        pw.println(con.Estacion_Origen.estacion.id_estacion + "," + 
+                                   con.Estacion_Destino.estacion.id_estacion + "," + 
+                                   con.Tiempo_Minutos);
+                    }
+                    aux = aux.siguiente;
+                }
             }
             pw.close();
+            System.out.println("Archivo de conexiones guardado exitosamente.");
         } catch (Exception ex) {
             System.out.println("Error al guardar conexiones: " + ex.getMessage());
         }

@@ -180,7 +180,7 @@ public class ModificarRed extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Ingrese el id:");
+        jLabel13.setText("Ingrese el id");
         jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 480, 340, 60));
 
         jLabel14.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
