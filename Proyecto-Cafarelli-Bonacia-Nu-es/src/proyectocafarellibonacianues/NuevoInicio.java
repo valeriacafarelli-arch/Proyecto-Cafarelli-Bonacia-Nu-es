@@ -4,19 +4,25 @@
  */
 package proyectocafarellibonacianues;
 
+import static proyectocafarellibonacianues.ModificarRed.grafo;
+import static proyectocafarellibonacianues.ModificarRed.tabla;
+
 /**
  *
  * @author VALERIA
  */
 public class NuevoInicio extends javax.swing.JFrame {
-    
+    public static Grafoo grafo;
+    public static TablaHashPropia tabla;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NuevoInicio.class.getName());
 
     /**
      * Creates new form NuevoInicio
      */
-    public NuevoInicio() {
+    public NuevoInicio(Grafoo g, TablaHashPropia t) {
         initComponents();
+        this.grafo = g;
+        this.tabla = t;
     }
 
     /**
@@ -152,7 +158,7 @@ public class NuevoInicio extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new NuevoInicio().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new NuevoInicio(grafo, tabla).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
