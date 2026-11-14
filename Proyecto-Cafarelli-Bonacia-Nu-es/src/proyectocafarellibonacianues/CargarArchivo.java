@@ -64,17 +64,22 @@ public class CargarArchivo extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        try{
+       try {
+            if (this.grafo == null) {
+                this.grafo = new Grafoo();
+            }
+            if (this.tabla == null) {
+                this.tabla = new TablaHashPropia(101);
+            }
+
+            GestorArchivo gestor = new GestorArchivo(this.grafo, this.tabla);
+            java.io.File archivo = gestor.seleccionarArchivo(this);
             
-            GestorArchivo gestor = new GestorArchivo();
-            gestor.cargar(gestor.seleccionarArchivo(this));
-            if(gestor.grafo != null){
-                this.grafo = gestor.grafo;
+            if (archivo != null) {
+                gestor.cargar(archivo);
             }
-            if(gestor.tablahash != null){
-                this.tabla = gestor.tablahash;
-            }
-        }catch(Exception e){
+            
+        } catch (Exception e) {
 
         }
     }//GEN-LAST:event_jButton3ActionPerformed

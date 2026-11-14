@@ -28,12 +28,15 @@ public class Graficar extends javax.swing.JFrame {
      */
     public Graficar(Grafoo g, TablaHashPropia t) {
         initComponents();
-        Component panelGrafo = obtenerPanelGrafo(grafo);
         this.grafo = g;
-        this.tabla = t;;
+        this.tabla = t;
+        
+        Component panelGrafo = obtenerPanelGrafo(this.grafo);
+        
         this.contenedor.removeAll();
         this.contenedor.setLayout(new java.awt.BorderLayout());
-        this.contenedor.add(panelGrafo, java.awt.BorderLayout.CENTER);
+        this.contenedor.add(jButton3, java.awt.BorderLayout.NORTH); 
+        this.contenedor.add(panelGrafo, java.awt.BorderLayout.CENTER); 
         this.contenedor.revalidate();
         this.contenedor.repaint();
     }

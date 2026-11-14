@@ -25,6 +25,13 @@ public class GestorArchivo {
     public TablaHashPropia tablahash;
 
     public GestorArchivo() {
+        this.grafo = new Grafoo();
+        this.tablahash = new TablaHashPropia(101);
+    }
+
+    public GestorArchivo(Grafoo g, TablaHashPropia t) {
+        this.grafo = g;
+        this.tablahash = t;
     }
 //El usuario pueda buscar y seleccionar un archivo.
     public File seleccionarArchivo(Component padre) {
