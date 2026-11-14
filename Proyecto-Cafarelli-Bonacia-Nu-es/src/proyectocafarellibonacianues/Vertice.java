@@ -8,6 +8,7 @@ package proyectocafarellibonacianues;
  *
  * @author VALERIA
  */
+//Guarda la información de la estación, un puntero para enlazarse con la siguiente estación, y su propia lista de conexiones
 public class Vertice {
     Vertice siguiente;
     Estacion estacion;

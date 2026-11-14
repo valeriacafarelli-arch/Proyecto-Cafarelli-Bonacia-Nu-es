@@ -8,6 +8,7 @@ package proyectocafarellibonacianues;
  *
  * @author VALERIA
  */
+//Declaramos las variables que guardan las características de la estación, es decir, la clave, el nombre de la estación, la línea de transporte, donde se ubica y la cantidad de pasajeros máxima que hay disponible.
 public class Estacion {
     String id_estacion;
     String nombre;

@@ -8,7 +8,7 @@ package proyectocafarellibonacianues;
  *
  * @author VALERIA
  */
-    // Nodo para la tabla hash con encadenamiento
+    // Nodo para la tabla hash con encadenamiento.Guarda una clave y un valor. Incluye una variable siguiente que apunta a otra EntradaHash.
     public class EntradaHash {
         String clave;
         Vertice valor;

@@ -5,9 +5,9 @@
 package proyectocafarellibonacianues;
 /**
  *
- * @author PC
+ * @author alanabonacia-lgtm
  */
-
+//Gestiona la red completa de estaciones, las conexiones.
 public class Grafoo {
     private Vertice cabeza;
     private TablaHashPropia tablaVertices;

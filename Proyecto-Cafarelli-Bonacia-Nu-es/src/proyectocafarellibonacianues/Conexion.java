@@ -8,6 +8,7 @@ package proyectocafarellibonacianues;
  *
  * @author VALERIA
  */
+//Definimos el punto de partida y el punto de llegada utilizando objetos de tipo Vertice que representan las estaciones dentro del grafo. El int Tiempo_Minutos represeta el tiempo que va a tardar en llegar del punto de partida al punto de llegada.
 public class Conexion {
     Vertice Estacion_Origen;
     Vertice Estacion_Destino;

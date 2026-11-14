@@ -8,6 +8,7 @@ package proyectocafarellibonacianues;
  *
  * @author valeriacafarelli-arch
  */
+//Conectamos el programa con los archivos externos de la computadora.
 import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,7 +26,7 @@ public class GestorArchivo {
 
     public GestorArchivo() {
     }
-
+//El usuario pueda buscar y seleccionar un archivo.
     public File seleccionarArchivo(Component padre) {
         JFileChooser selector = new JFileChooser(".");
         selector.setFileFilter(new FileNameExtensionFilter("Archivos CSV (*.csv)", "csv"));
@@ -34,7 +35,7 @@ public class GestorArchivo {
         }
         return null;
     }
-
+//Lee línea por línea el CSV de estaciones, corta los textos divididos por comas, crea la estación en memoria, la mete en el grafo y la registra en la tabla hash.
     public void cargarEstaciones(File archivo) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(archivo));

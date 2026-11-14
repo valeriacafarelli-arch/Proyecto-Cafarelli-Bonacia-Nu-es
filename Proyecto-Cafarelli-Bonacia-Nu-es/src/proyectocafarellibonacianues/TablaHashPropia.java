@@ -6,8 +6,9 @@ package proyectocafarellibonacianues;
 
 /**
  *
- * @author VALERIA
+ * @author alanabonacia-lgtm
  */
+
     public  class TablaHashPropia {
         public EntradaHash[] estaciones;
         public int capacidad;
@@ -16,7 +17,8 @@ package proyectocafarellibonacianues;
             this.capacidad = capacidad;
             this.estaciones = new EntradaHash[capacidad];
         }
-
+//Toma el texto del ID de la estación, calcula su código hash de Java, lo vuelve positivo en elcaso de que de negativo y le aplica un módulo (% capacidad) para asegurar que encaje exactamente en una posición válida del arreglo
+//Se utiliza el 31 como factor multiplicador para combinar los caracteres. Se elige el 31 porque es un número primo impar y tiene una propiedad matemática,evitando Al ser un número primo, ayuda a que los resultados de la función hash se distribuyan de manera mucho más uniforme a lo largo de la tabla, evitando que distintas palabras generen el mismo código
         private int hash(String clave) {
             int h = 0;
             char[] chars = clave.toCharArray();
@@ -28,7 +30,7 @@ package proyectocafarellibonacianues;
             }
             return h;
         }
-        
+    //Si dos IDs diferentes caen por casualidad en el mismo número de casillero (colisión), no se sobreescriben: se enlazan uno detrás de otro utilizando el nodo EntradaHash    
         public void insertar(String clave, Vertice valor) {
             int pos = hash(clave);
             EntradaHash actual = estaciones[pos];
