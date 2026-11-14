@@ -103,16 +103,19 @@ public class ActualizarRepositorio extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        try{
-
-            GestorArchivo gestor = new GestorArchivo();
-            gestor.grafo = grafo;
-            gestor.tablahash = tabla;
-            gestor.guardarConexiones(gestor.seleccionarArchivo(this));
-            gestor.guardarEstaciones(gestor.seleccionarArchivo(this));
+        try {
+            GestorArchivo gestor = new GestorArchivo(this.grafo, this.tabla);
             
-        }catch(Exception e){
-
+            java.io.File archivoEstaciones = gestor.seleccionarArchivo(this);
+            if (archivoEstaciones != null) {
+                gestor.guardarEstaciones(archivoEstaciones);
+            }
+            
+            java.io.File archivoConexiones = gestor.seleccionarArchivo(this);
+            if (archivoConexiones != null) {
+                gestor.guardarConexiones(archivoConexiones);
+            }
+        } catch (Exception e) {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 

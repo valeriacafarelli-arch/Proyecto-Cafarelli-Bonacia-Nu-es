@@ -20,6 +20,24 @@ public class ModificarRed extends javax.swing.JFrame {
         initComponents();
         this.grafo = g;
         this.tabla = t;
+        actualizarDropdowns();
+    }
+      
+    public void actualizarDropdowns() {
+        idE.removeAllItems();
+        idA.removeAllItems();
+        idB.removeAllItems();
+
+        if (grafo != null && grafo.getCabeza() != null) {
+            Vertice aux = grafo.getCabeza();
+            while (aux != null) {
+                String item = aux.estacion.id_estacion + " - " + aux.estacion.nombre;
+                idE.addItem(item);
+                idA.addItem(item);
+                idB.addItem(item);
+                aux = aux.siguiente;
+            }
+        }
     }
 
     /**
@@ -52,14 +70,14 @@ public class ModificarRed extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        idE = new javax.swing.JTextField();
-        idA = new javax.swing.JTextField();
-        idB = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        idE = new javax.swing.JComboBox<>();
+        idB = new javax.swing.JComboBox<>();
+        idA = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -70,12 +88,12 @@ public class ModificarRed extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Ingrese la cant de pasajeros/hora:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 530, 340, 60));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 530, 320, 60));
 
         jButton3.setFont(new java.awt.Font("RomanD", 1, 24)); // NOI18N
         jButton3.setText("Conectar");
         jButton3.addActionListener(this::jButton3ActionPerformed);
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 630, 150, 40));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 610, 150, 40));
 
         jButton8.setFont(new java.awt.Font("RomanD", 1, 24)); // NOI18N
         jButton8.setText("Agregar");
@@ -94,11 +112,11 @@ public class ModificarRed extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("RomanT", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Conectar Estaciones");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 410, 340, 60));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 350, 340, 60));
 
         tiempo.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
         tiempo.setForeground(new java.awt.Color(0, 0, 102));
-        jPanel1.add(tiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 560, 110, 40));
+        jPanel1.add(tiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 510, 150, 50));
 
         name.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
         name.setForeground(new java.awt.Color(0, 0, 102));
@@ -115,7 +133,7 @@ public class ModificarRed extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Ingrese el tiempo:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 490, 340, 60));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 440, 340, 60));
 
         jLabel5.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -154,39 +172,27 @@ public class ModificarRed extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Ingrese el id:");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 150, 340, 60));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 150, 340, 60));
 
         jLabel12.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("de la estacion B:");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 510, 170, 60));
-
-        idE.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-        idE.setForeground(new java.awt.Color(0, 0, 102));
-        jPanel1.add(idE, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 200, 220, 40));
-
-        idA.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-        idA.setForeground(new java.awt.Color(0, 0, 102));
-        jPanel1.add(idA, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 560, 120, 40));
-
-        idB.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-        idB.setForeground(new java.awt.Color(0, 0, 102));
-        jPanel1.add(idB, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 560, 120, 40));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 450, 170, 60));
 
         jLabel13.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Ingrese el id");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 480, 340, 60));
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, 340, 60));
 
         jLabel14.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Ingrese el id");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 480, 130, 60));
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 440, 130, -1));
 
         jLabel15.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("de la estacion A:");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 510, 170, 60));
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 470, 160, -1));
 
         jButton4.setFont(new java.awt.Font("RomanD", 1, 24)); // NOI18N
         jButton4.setText("Eliminar");
@@ -198,24 +204,31 @@ public class ModificarRed extends javax.swing.JFrame {
         jButton5.addActionListener(this::jButton5ActionPerformed);
         jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 50, 150, 40));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 1070, 710));
+        idE.addActionListener(this::idEActionPerformed);
+        jPanel1.add(idE, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 350, 40));
+
+        jPanel1.add(idB, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 510, 200, 50));
+
+        jPanel1.add(idA, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 510, 200, 50));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 1320, 730));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-                try{
-            String i = this.idA.getText();
-            String d = this.idB.getText();
+    try {
+        if (idA.getSelectedItem() != null && idB.getSelectedItem() != null) {
+            String seleccionA = idA.getSelectedItem().toString();
+            String seleccionB = idB.getSelectedItem().toString();
+            String i = seleccionA.split(" - ")[0];
+            String d = seleccionB.split(" - ")[0];
             String t = this.tiempo.getText();
+                
             grafo.agregarConexion(i, d, Integer.parseInt(t));
-            
-            
-            
-                        
-        }catch(Exception e){
-            
+            }
+        } catch (Exception e) {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -232,9 +245,7 @@ public class ModificarRed extends javax.swing.JFrame {
             grafo.agregarEstacion(nueva);
             tabla.insertar(i, grafo.buscarVertice(i));
             
-            
-            
-                        
+            actualizarDropdowns();
         }catch(Exception e){
             
         }
@@ -242,16 +253,17 @@ public class ModificarRed extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-                try{
-            String i = this.idE.getText();
-            grafo.eliminarVertice(i);
-            tabla.eliminar(i);
-            
-            
-            
-                        
-        }catch(Exception e){
-            
+       try {
+            if (idE.getSelectedItem() != null) {
+                String seleccionE = idE.getSelectedItem().toString();
+                String i = seleccionE.split(" - ")[0];
+                
+                grafo.eliminarVertice(i);
+                tabla.eliminar(i);
+                
+                actualizarDropdowns();
+            }
+        } catch (Exception e) {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -261,6 +273,10 @@ public class ModificarRed extends javax.swing.JFrame {
         c.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void idEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idEActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idEActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,9 +305,9 @@ public class ModificarRed extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField id;
-    private javax.swing.JTextField idA;
-    private javax.swing.JTextField idB;
-    private javax.swing.JTextField idE;
+    private javax.swing.JComboBox<String> idA;
+    private javax.swing.JComboBox<String> idB;
+    private javax.swing.JComboBox<String> idE;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

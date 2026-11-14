@@ -19,9 +19,23 @@ public class RutaOptima extends javax.swing.JFrame {
     public RutaOptima(Grafoo g, TablaHashPropia t) {
         initComponents();
         this.grafo = g;
-        this.tabla = t;;
+        this.tabla = t;
+        actualizarDropdowns();
     }
+    public void actualizarDropdowns() {
+        idA.removeAllItems();
+        idB.removeAllItems();
 
+        if (grafo != null && grafo.getCabeza() != null) {
+            Vertice aux = grafo.getCabeza();
+            while (aux != null) {
+                String item = aux.estacion.id_estacion + " - " + aux.estacion.nombre;
+                idA.addItem(item);
+                idB.addItem(item);
+                aux = aux.siguiente;
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,13 +50,13 @@ public class RutaOptima extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         salida = new javax.swing.JTextArea();
-        idB = new javax.swing.JTextField();
-        idA = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
+        idB = new javax.swing.JComboBox<>();
+        idA = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -66,38 +80,34 @@ public class RutaOptima extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, 640, 90));
 
-        idB.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-        idB.setForeground(new java.awt.Color(0, 0, 102));
-        jPanel1.add(idB, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 180, 180, 40));
-
-        idA.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-        idA.setForeground(new java.awt.Color(0, 0, 102));
-        jPanel1.add(idA, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 170, 40));
-
         jLabel14.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Ingrese el id");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 130, 60));
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 110, 130, 20));
 
         jLabel15.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Ingrese el id");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 100, 130, 60));
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, 130, -1));
 
         jLabel16.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("de la estacion A:");
-        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 170, 60));
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 130, 170, 20));
 
         jLabel17.setFont(new java.awt.Font("RomanT", 1, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("de la estacion B:");
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 170, 60));
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 170, 20));
 
         jButton4.setFont(new java.awt.Font("RomanD", 1, 24)); // NOI18N
         jButton4.setText("Volver");
         jButton4.addActionListener(this::jButton4ActionPerformed);
         jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 50, 150, 40));
+
+        jPanel1.add(idB, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 170, 230, 40));
+
+        jPanel1.add(idA, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 240, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 1050, 670));
 
@@ -106,11 +116,17 @@ public class RutaOptima extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        try{
-           String i = this.idA.getText();
-           String j = this.idB.getText();
-            this.salida.setText(grafo.dijkstra(i, j));
-        }catch(Exception e){
+        try {
+            if (idA.getSelectedItem() != null && idB.getSelectedItem() != null) {
+                String seleccionA = idA.getSelectedItem().toString();
+                String seleccionB = idB.getSelectedItem().toString();
+                
+                String i = seleccionA.split(" - ")[0];
+                String j = seleccionB.split(" - ")[0];
+                
+                this.salida.setText(grafo.dijkstra(i, j));
+            }
+        } catch (Exception e) {
 
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -148,8 +164,8 @@ public class RutaOptima extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField idA;
-    private javax.swing.JTextField idB;
+    private javax.swing.JComboBox<String> idA;
+    private javax.swing.JComboBox<String> idB;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
