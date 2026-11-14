@@ -110,15 +110,29 @@ public class Graficar extends javax.swing.JFrame {
     private void initComponents() {
 
         contenedor = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         contenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(contenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 770, 560));
+
+        jButton3.setFont(new java.awt.Font("RomanD", 1, 24)); // NOI18N
+        jButton3.setText("Volver");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+        contenedor.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, 110, 30));
+
+        getContentPane().add(contenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 570));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        NuevoInicio c = new NuevoInicio(grafo, tabla);
+        c.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,5 +161,6 @@ public class Graficar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contenedor;
+    private javax.swing.JButton jButton3;
     // End of variables declaration//GEN-END:variables
 }

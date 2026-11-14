@@ -9,7 +9,7 @@ package proyectocafarellibonacianues;
  * @author gabrielanunez
  */
 public class CargarArchivo extends javax.swing.JFrame {
-        public static Grafoo grafo;
+    public static Grafoo grafo;
     public static TablaHashPropia tabla;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CargarArchivo.class.getName());
 
@@ -33,8 +33,8 @@ public class CargarArchivo extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -47,24 +47,20 @@ public class CargarArchivo extends javax.swing.JFrame {
         jLabel1.setText("Cargar Archivo");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 460, 60));
 
-        jButton1.setFont(new java.awt.Font("RomanD", 0, 24)); // NOI18N
-        jButton1.setText("EXIT");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 30, 140, 40));
-
         jButton3.setFont(new java.awt.Font("RomanD", 1, 24)); // NOI18N
         jButton3.setText("Cargar Archivo");
         jButton3.addActionListener(this::jButton3ActionPerformed);
         jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 160, 250, 40));
 
+        jButton4.setFont(new java.awt.Font("RomanD", 1, 24)); // NOI18N
+        jButton4.setText("Volver");
+        jButton4.addActionListener(this::jButton4ActionPerformed);
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 50, 150, 40));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 1050, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -82,6 +78,13 @@ public class CargarArchivo extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        NuevoInicio c = new NuevoInicio(grafo, tabla);
+        c.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -109,8 +112,8 @@ public class CargarArchivo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

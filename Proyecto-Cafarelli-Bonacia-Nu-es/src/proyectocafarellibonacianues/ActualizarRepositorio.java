@@ -39,8 +39,8 @@ public class ActualizarRepositorio extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -77,15 +77,15 @@ public class ActualizarRepositorio extends javax.swing.JFrame {
         jLabel2.setText("Actualizar Repositorio");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 460, 60));
 
-        jButton2.setFont(new java.awt.Font("RomanD", 0, 24)); // NOI18N
-        jButton2.setText("EXIT");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 30, 140, 40));
-
         jButton4.setFont(new java.awt.Font("RomanD", 1, 24)); // NOI18N
         jButton4.setText("Actualizar");
         jButton4.addActionListener(this::jButton4ActionPerformed);
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 250, 40));
+        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, 250, 40));
+
+        jButton5.setFont(new java.awt.Font("RomanD", 1, 24)); // NOI18N
+        jButton5.setText("Volver");
+        jButton5.addActionListener(this::jButton5ActionPerformed);
+        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 40, 150, 40));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1050, 670));
 
@@ -101,10 +101,6 @@ public class ActualizarRepositorio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         try{
@@ -119,6 +115,13 @@ public class ActualizarRepositorio extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        NuevoInicio c = new NuevoInicio(grafo, tabla);
+        c.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,9 +150,9 @@ public class ActualizarRepositorio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
